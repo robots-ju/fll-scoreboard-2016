@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Clark Winkelmann">
+	<meta name="description" content="Unofficial Scoreboard for the FLL 2016 Animal Allies Robot Game challenge">
+	<title>FLL 2016 Scoreboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<noscript class="enable_javascript">
+		You have to enable Javascript before using this mind-blowing technology
+		<a href="http://www.enable-javascript.com/" target="_blank">Here's how</a>
+	</noscript>
+	<div id="scoreboard"></div>
+	<footer>
+		Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://twitter.com/clarkwinkelmann">Clark Winkelmann</a>.
+		Contribute to this <a href="https://github.com/robots-ju/fll-scoreboard-2016/blob/master/LICENSE.txt" target="_blank">open-source</a> application on <a href="https://github.com/robots-ju/fll-scoreboard-2016">GitHub</a>.
+		Logo and field images from the <a href="http://www.firstlegoleague.org/challenge">FIRST® LEGO® League</a> Robot Game material.
+		Missions illustrations from the <a href="http://www.first-lego-league.org/en/fll/robot-game/missions.html">HANDS on TECHNOLOGY</a> missions overview page.
+	</footer>
+	<script src="assets/script.js"></script>
+	<script>
+		React.render(React.createElement(ScoreBoardReact), document.getElementById('scoreboard'));
+	</script>
+</body>
+</html>

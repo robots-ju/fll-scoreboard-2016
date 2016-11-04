@@ -1,0 +1,556 @@
+/**
+ * Robots-JU FLL 2016 Scoreboard
+ * @author Clark Winkelmann <clark.winkelmann@gmail.com>
+ * @license MIT
+ */
+
+$color-background: white;
+$color-orange: #ff6100;
+$color-shadow: rgba(black, 0.6);
+$color-text-dark: #333;
+$color-text-light: white;
+$color-text-grey: #ccc;
+
+$color-animalallies-green: #89cf25;
+$color-animalallies-blue: #0da8d2;
+
+$color-mission-border: #efefef;
+$color-mission-active: darken($color-animalallies-green, 5%);
+
+$overlay-width: 650px;
+
+$transition-overlay-open: 0.2s;
+$transition-mission-pointer: 0.2s;
+
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	min-height: 100%;
+}
+
+body {
+	color: $color-text-dark;
+	font-family: Arial, sans-serif;
+	background: $color-background;
+}
+
+button, input {
+	font-family: inherit;
+	font-size: 1em;
+}
+
+.enable_javascript {
+	display: block;
+	padding: 2em;
+	background: $color-orange;
+	text-align: center;
+	font-weight: bold;
+}
+
+header {
+	position: fixed;
+	z-index: 500;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: $color-background;
+	box-shadow: 0 0 2px $color-shadow;
+	font-weight: bold;
+	flex-wrap: wrap;
+
+	@media (max-width: 1400px) {
+		font-size: 0.7em;
+
+		h1, .overlay-nav.active {
+			flex-grow: 1;
+		}
+
+		.start-overlay {
+			flex-grow: 2;
+		}
+	}
+
+	@media (max-width: 700px) {
+		h1.header-block {
+			display: none;
+		}
+
+		.score {
+			flex-grow: 1;
+		}
+	}
+
+	&, .overlay-nav {
+		display: flex;
+		align-items: stretch;
+	}
+
+	h1 {
+		flex-grow: 1;
+		font-size: 1.6em;
+
+		em {
+			font-style: normal;
+			margin-right: 0.5em;
+			color: #999;
+		}
+	}
+
+	.overlay-nav {
+		width: 0;
+		overflow: hidden;
+		transition: $transition-overlay-open width;
+
+		&.active {
+			width: $overlay-width;
+		}
+
+		button {
+			flex-grow: 1;
+		}
+	}
+
+	.header-block {
+		display: flex;
+		margin: 0;
+		align-items: center;
+		min-height: 50px;
+		padding: 0 20px;
+	}
+
+	button {
+		border: none;
+		font-weight: inherit;
+		cursor: pointer;
+		background: $color-animalallies-green;
+		color: $color-text-light;
+			font-size: 1.2em;
+
+		&.header-block {
+			display: block; // flex prevents the use of icons, and for whatevery reason buttons stay vertically aligned as block too
+		}
+
+		&:hover {
+			background: darken($color-animalallies-green, 5%);
+		}
+	}
+
+	.score {
+		background: $color-animalallies-green;
+		color: $color-text-light;
+		font-size: 2em;
+		padding: 0 50px;
+		text-align: center;
+	}
+
+	button.start-overlay {
+		display: none;
+
+		&.active {
+			display: block;
+		}
+	}
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	color: #aaa;
+	padding: 20px;
+	background: $color-background;
+
+	@media (max-width: 1400px) {
+		position: static;
+	}
+
+	a {
+		color: #888;
+	}
+}
+
+.missions-overlay {
+	position: fixed;
+	z-index: 300;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: $overlay-width;
+	max-width: 100%;
+	background: $color-background;
+	transition-property: top;
+	transition-duration: 0.5s;
+	box-shadow: 0 0 2px $color-shadow;
+	overflow: hidden;
+	transform: translateX($overlay-width);
+	transition: $transition-overlay-open transform;
+
+	&.active {
+		transform: translateX(0);
+	}
+
+	.mission {
+		position: absolute;
+		z-index: 20;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		overflow: auto;
+		transform: translateX(0);
+		transition: $transition-overlay-open transform;
+		pointer-events: none;
+
+		&.out-prev {
+			transform: translateX(-100%);
+		}
+
+		&.out-next {
+			transform: translateX(100%);
+		}
+
+		.content {
+			width: 800px;
+			max-width: 100%;
+			margin: 50px auto 0;
+			pointer-events: auto;
+			padding: 20px 50px;
+			background: $color-background;
+
+			@media (max-width: 1200px) {
+				margin-top: 100px;
+			}
+
+			.images {
+				height: 300px;
+				display: flex;
+				align-items: stretch;
+
+				@media (max-height: 800px) {
+					height: 150px;
+				}
+
+				.image {
+					flex-grow: 1;
+					background-size: cover;
+					background-position: center center;
+				}
+
+				&:empty {
+					display: none;
+				}
+			}
+
+			.task {
+				margin: 20px 0;
+			}
+
+			label {
+				cursor: pointer;
+				display: block;
+
+				input[type=checkbox] {
+					display: none;
+				}
+
+				.field-box {
+					border: 2px solid $color-mission-border;
+
+					.images {
+						margin: 5px;
+					}
+
+					.description {
+						padding: 20px;
+						display: flex;
+						align-items: center;
+
+						.title {
+							flex-grow: 1;
+						}
+
+						.points {
+							font-weight: bold;
+							color: $color-text-grey;
+							font-size: 1.2em;
+							margin-left: 20px;
+						}
+					}
+
+					.fake-checkbox {
+						$checkbox-size: 40px;
+
+						flex-shrink: 0;
+						width: $checkbox-size;
+						height: $checkbox-size;
+						border-radius: 3px;
+						background: $color-mission-border;
+						margin-right: 20px;
+						text-align: center;
+						font-size: 25px;
+						line-height: $checkbox-size;
+						color: transparent;
+					}
+
+					&.active {
+						border-color: $color-mission-active;
+
+						.fake-checkbox, .points {
+							color: $color-mission-active;
+						}
+					}
+
+					.numbers-input {
+						display: flex;
+						flex-wrap: wrap;
+
+						.number {
+							flex-grow: 1;
+							border: 2px solid $color-mission-border;
+							padding: 20px 10px;
+							border-bottom: none;
+							text-align: center;
+
+							&:last-of-type {
+								border-right: none;
+							}
+
+							.digit {
+								font-size: 2em;
+							}
+
+							.points {
+								font-weight: bold;
+								color: $color-text-grey;
+								font-size: 1.2em;
+							}
+
+							&.active {
+								border-color: $color-mission-active;
+
+								.points {
+									color: $color-mission-active;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.options.multiple label {
+				display: inline-block;
+				width: 50%;
+			}
+
+			.tasks.multiple .images {
+				height: 200px; // restrict if many items
+
+				@media (max-height: 800px) {
+					height: 100px;
+				}
+			}
+		}
+	}
+}
+
+.missions-table {
+	margin-top: 50px;
+	position: relative;
+	background-image: url(animal-allies-field.jpg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+	font-size: 1400px;
+	width: 1em;
+	height: 0.58em;
+
+	@media (min-width: 1460px) and (max-width: 1900px) {
+		&.overlay-open {
+			margin-left: -340px;
+		}
+	}
+
+	@media (min-width: 1024px) and (max-width: 1460px) {
+		&.overlay-open {
+			margin-left: -250px;
+		}
+	}
+
+	@media (max-width: 1900px) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	@media (max-width: 1460px) {
+		font-size: 1024px;
+	}
+
+	@media (max-width: 1200px) {
+		margin-top: 100px;
+	}
+
+	@media (max-width: 1024px) {
+		font-size: 800px;
+	}
+
+	@media (max-width: 800px) {
+		font-size: 640px;
+	}
+
+	@media (max-width: 640px) {
+		font-size: 360px;
+	}
+
+	.mission {
+		position: absolute;
+		cursor: pointer;
+		font-size: 16px;
+
+		.pointer {
+			position: absolute;
+			z-index: 20;
+			border-radius: 100%;
+			text-align: center;
+			font-weight: bold;
+
+			$pointer-normal-size: 50px;
+			width: $pointer-normal-size;
+			height: $pointer-normal-size;
+			top: $pointer-normal-size/-2;
+			left: $pointer-normal-size/-2;
+			line-height: $pointer-normal-size;
+			background: $color-animalallies-blue;
+			color: $color-text-light;
+
+			&, .score, .number {
+				transition: $transition-mission-pointer all;
+			}
+
+			.score {
+				font-size: 1px;
+			}
+
+			.number {
+				line-height: 50px;
+			}
+
+			&.scoring {
+				$pointer-scoring-size: 80px;
+				width: $pointer-scoring-size;
+				height: $pointer-scoring-size;
+				top: $pointer-scoring-size/-2;
+				left: $pointer-scoring-size/-2;
+				background: $color-animalallies-green;
+				line-height: 50px;
+
+				.score {
+					font-size: 40px;
+					margin-top: 8px;
+				}
+
+				.number {
+					font-size: 12px;
+					line-height: 0;
+					font-weight: normal;
+				}
+			}
+
+			&.negative {
+				background: $color-orange;
+			}
+		}
+
+		.label {
+			position: absolute;
+			display: none;
+			z-index: 10;
+			right: 0;
+			background: $color-background;
+			padding: 5px 20px;
+			padding-right: 40px;
+			border-radius: 2px;
+			box-shadow: 0 0 2px $color-shadow;
+			top: -1em;
+		}
+
+		&:hover .label {
+			display: block;
+		}
+	}
+}
+
+.tools {
+	position: fixed;
+	bottom: 100px;
+	left: 10px;
+	width: 300px;
+	max-width: 100%;
+	border-left: 2px solid $color-text-grey;
+	padding: 20px;
+
+	@media (max-width: 1400px) {
+		position: relative;
+		z-index: 200;
+		bottom: 0;
+		left: 0;
+		margin-top: -200px;
+	}
+
+	@media (max-width: 640px) {
+		margin-top: 0;
+	}
+
+	.locales {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			cursor: pointer;
+			display: inline-block;
+			padding: 0.2em 0.5em;
+			text-transform: uppercase;
+
+			&:hover {
+				text-decoration: underline;
+			}
+
+			&:not(:first-of-type) {
+				border-left: 2px solid #e1e1e1;
+			}
+		}
+	}
+
+	.btn {
+		border-radius: 2px;
+		text-decoration: none;
+		padding: 6px 10px;
+		border: none;
+		box-shadow: 0 0 2px $color-shadow;
+		cursor: pointer;
+
+		background: #efefef;
+		color: $color-text-dark;
+
+		&:hover {
+			background: #e1e1e1;
+		}
+
+		&.twitter {
+			background: #1b95e0;
+			color: white;
+
+			&:hover {
+				background: #0c7abf;
+			}
+		}
+
+		&.big {
+			font-size: 1.4em;
+			display: block;
+		}
+	}
+}
