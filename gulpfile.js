@@ -11,6 +11,7 @@ var uglify      = require('gulp-uglify');
 var fileinclude = require('gulp-file-include');
 
 var bower_path = './bower_components/';
+var node_path  = './node_modules/';
 var src_path   = './src/';
 
 var dest_path        = './site/';
@@ -18,7 +19,8 @@ var assets_dest_path = dest_path + 'assets/';
 
 gulp.task('scripts', function() {
 	return gulp.src([
-			bower_path + 'react/react-with-addons.js',
+			node_path + 'react/dist/react-with-addons.min.js',
+			node_path + 'react-dom/dist/react-dom.min.js',
 			bower_path + 'fll-robotgame-scorer-2016/src/scorer.js',
 			src_path + 'js/*.js'
 		])

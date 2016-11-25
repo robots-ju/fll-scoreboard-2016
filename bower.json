@@ -6,7 +6,6 @@
   "license": "MIT",
   "homepage": "https://robots-ju.ch/",
   "dependencies": {
-    "fll-robotgame-scorer-2016": "https://github.com/robots-ju/fll-robotgame-scorer-2016.git",
-    "react": "~0.13.3"
+    "fll-robotgame-scorer-2016": "https://github.com/robots-ju/fll-robotgame-scorer-2016.git"
   }
 }

@@ -85,29 +85,33 @@ var ScoreBoardReact = React.createClass({
 		var score = output.score;
 
 		return React.createElement('div', {}, [
-			React.createElement('header', {}, [
+			React.createElement('header', {key: 0}, [
 				React.createElement('div', {
+					key: 0,
 					className: 'header-block score'
 				}, 'Score: ' + score),
 				React.createElement('h1', {
+					key: 1,
 					className: 'header-block'
 				}, [
-					React.createElement('em', {}, 'Robots-JU'),
+					React.createElement('em', {key: 0}, 'Robots-JU'),
 					' FLL 2016 Scoreboard'
 				]),
 				React.createElement('div', {
+					key: 2,
 					className: 'overlay-nav' + (this.state.focused_mission !== -1 ? ' active' : '')
 				}, [
-					React.createElement('button', {className: 'header-block nav-prev', onClick: this.focusPrev},   [React.createElement('i', {className: 'fa fa-chevron-left'}), ' ', this.lang(ScoreBoardData.strings.prev)]),
-					React.createElement('button', {className: 'header-block nav-next', onClick: this.focusNext},   [this.lang(ScoreBoardData.strings.next), ' ', React.createElement('i', {className: 'fa fa-chevron-right'})]),
-					React.createElement('button', {className: 'header-block nav-close', onClick: this.focusClose}, [this.lang(ScoreBoardData.strings.close), ' ', React.createElement('i', {className: 'fa fa-close'})])
+					React.createElement('button', {key: 0, className: 'header-block nav-prev', onClick: this.focusPrev},   [React.createElement('i', {key: 0, className: 'fa fa-chevron-left'}), ' ', this.lang(ScoreBoardData.strings.prev)]),
+					React.createElement('button', {key: 1, className: 'header-block nav-next', onClick: this.focusNext},   [this.lang(ScoreBoardData.strings.next), ' ', React.createElement('i', {key: 0, className: 'fa fa-chevron-right'})]),
+					React.createElement('button', {key: 2, className: 'header-block nav-close', onClick: this.focusClose}, [this.lang(ScoreBoardData.strings.close), ' ', React.createElement('i', {key: 0, className: 'fa fa-close'})])
 				]),
 				React.createElement('button', {
+					key: 3,
 					className: 'header-block start-overlay' + (this.state.focused_mission === -1 ? ' active' : ''),
 					onClick: function() { this.setState({focused_mission: 0}); }.bind(this)
-				}, [React.createElement('i', {className: 'fa fa-magic'}), ' ', this.lang(ScoreBoardData.strings.launch_wizard)])
+				}, [React.createElement('i', {key: 0, className: 'fa fa-magic'}), ' ', this.lang(ScoreBoardData.strings.launch_wizard)])
 			]),
-			React.createElement('div', {key: 'missions-table', className: 'missions-table' + (this.state.focused_mission !== -1 ? ' overlay-open' : '')}, ScoreBoardData.missions.map(function(mission, mission_key) {
+			React.createElement('div', {key: 1, className: 'missions-table' + (this.state.focused_mission !== -1 ? ' overlay-open' : '')}, ScoreBoardData.missions.map(function(mission, mission_key) {
 				var mission_score = 0;
 				mission.tasks.forEach(function(task) {
 					task.options.forEach(function(option) {
@@ -126,6 +130,7 @@ var ScoreBoardReact = React.createClass({
 					}.bind(this));
 				}.bind(this));
 				return React.createElement('div', {
+					key: mission_key,
 					onClick: function() { this.setState({focused_mission: mission_key}); }.bind(this),
 					className: 'mission',
 					style: {
@@ -134,15 +139,16 @@ var ScoreBoardReact = React.createClass({
 					}
 				}, [
 					React.createElement('div', {
+						key: 0,
 						className: 'pointer' + (mission_score != 0 ? ' scoring' : '') + (mission_score < 0 ? ' negative' : '')
 					}, [
-						React.createElement('div', {className: 'score'}, mission_score != 0 ? mission_score : ''),
-						React.createElement('div', {className: 'number'}, mission.number === null ? 'PE' : ('M' + mission.number))
+						React.createElement('div', {key: 0, className: 'score'}, mission_score != 0 ? mission_score : ''),
+						React.createElement('div', {key: 1, className: 'number'}, mission.number === null ? 'PE' : ('M' + mission.number))
 					]),
-					React.createElement('div', {className: 'label'}, this.lang(mission.title))
+					React.createElement('div', {key: 1, className: 'label'}, this.lang(mission.title))
 				]);
 			}.bind(this))),
-			React.createElement('div', {key: 'missions-overlay', className: 'missions-overlay' + (this.state.focused_mission !== -1 ? ' active' : '')}, [
+			React.createElement('div', {key: 2, className: 'missions-overlay' + (this.state.focused_mission !== -1 ? ' active' : '')}, [
 				ScoreBoardData.missions.map(function(mission, mission_key) {
 					return React.createElement('div', {key: mission_key, className: 'mission ' + (function() {
 							if (mission_key === this.state.focused_mission) {
@@ -153,15 +159,16 @@ var ScoreBoardReact = React.createClass({
 								return 'out-prev';
 							}
 						}.bind(this))()}, React.createElement('div', {className: 'content'}, [
-							React.createElement('h1', {}, (mission.number === null ? '' : ('M' + mission.number + ' ')) + this.lang(mission.title)),
-							React.createElement('p', {}, this.lang(mission.description)),
-							React.createElement('div', {className: 'tasks' + (mission.tasks.length > 1 ? ' multiple' : '')}, mission.tasks.map(function(task, task_key) {
+							React.createElement('h1', {key: 0}, (mission.number === null ? '' : ('M' + mission.number + ' ')) + this.lang(mission.title)),
+							React.createElement('p', {key: 1}, this.lang(mission.description)),
+							React.createElement('div', {key: 2, className: 'tasks' + (mission.tasks.length > 1 ? ' multiple' : '')}, mission.tasks.map(function(task, task_key) {
 								return React.createElement('div', {key: task_key, className: 'options' + (task.options.length > 1 ? ' multiple' : '')}, task.options.map(function(option, option_key) {
-									return React.createElement('label', {key: task_key + '_' + option_key, className: 'option'},
+									return React.createElement('label', {key: option_key, className: 'option'},
 										(function() {
 											switch (option.type) {
 												case 'boolean':
 													return [React.createElement('input', {
+															key: 0,
 															type: 'checkbox',
 															checked: this.state[option.handle],
 															onChange: function() {
@@ -178,14 +185,17 @@ var ScoreBoardReact = React.createClass({
 																this.setState(newState);
 															}.bind(this)
 														}),
-														React.createElement('div', {className: 'field-box' + (this.state[option.handle] ? ' active' : '')}, [
-															React.createElement('div', {className: 'images'}, option.images.map(function(image) {
-																return React.createElement('div', {className: 'image', style: {backgroundImage: 'url(assets/' + image + ')'}});
+														React.createElement('div', {
+															key: 1,
+															className: 'field-box' + (this.state[option.handle] ? ' active' : '')
+														}, [
+															React.createElement('div', {key: 0, className: 'images'}, option.images.map(function(image, image_key) {
+																return React.createElement('div', {key: image_key, className: 'image', style: {backgroundImage: 'url(assets/' + image + ')'}});
 															})),
-															React.createElement('div', {className: 'description'}, [
-																React.createElement('span', {className: 'fake-checkbox'}, React.createElement('i', {className: 'fa fa-check'})),
-																React.createElement('span', {className: 'title'}, this.lang(option.title)),
-																React.createElement('span', {className: 'points'}, '+' + option.points)
+															React.createElement('div', {key: 1, className: 'description'}, [
+																React.createElement('span', {key: 0, className: 'fake-checkbox'}, React.createElement('i', {className: 'fa fa-check'})),
+																React.createElement('span', {key: 1, className: 'title'}, this.lang(option.title)),
+																React.createElement('span', {key: 2, className: 'points'}, '+' + option.points)
 															])
 														])
 													];
@@ -196,6 +206,7 @@ var ScoreBoardReact = React.createClass({
 														(function() {
 															var number_for_input = number;
 															number_inputs.push(React.createElement('div', {
+																key: number_for_input,
 																className: 'number' + (this.state[option.handle] == number_for_input ? ' active' : ''),
 																onClick: function() {
 																	var changes = {};
@@ -203,21 +214,22 @@ var ScoreBoardReact = React.createClass({
 																	this.setState(changes);
 																}.bind(this)
 															}, [
-																React.createElement('div', {className: 'digit'}, number_for_input),
-																React.createElement('div', {className: 'points'}, (option.points > 0 ? '+' : '') + (option.points * number_for_input))
+																React.createElement('div', {key: 0, className: 'digit'}, number_for_input),
+																React.createElement('div', {key: 1, className: 'points'}, (option.points > 0 ? '+' : '') + (option.points * number_for_input))
 															]));
 														}.bind(this))();
 													}
 
 													return React.createElement('div', {className: 'field-box' + (this.state[option.handle] ? ' active' : '')}, [
-															React.createElement('div', {className: 'images'}, option.images.map(function(image) {
-																return React.createElement('div', {className: 'image', style: {backgroundImage: 'url(assets/' + image + ')'}});
+															React.createElement('div', {key: 0, className: 'images'}, option.images.map(function(image, image_key) {
+																return React.createElement('div', {key: image_key, className: 'image', style: {backgroundImage: 'url(assets/' + image + ')'}});
 															})),
-															React.createElement('div', {className: 'description'}, [
-																React.createElement('span', {className: 'title'}, this.lang(option.title)),
-																React.createElement('span', {className: 'points'}, (option.points > 0 ? '+' : '') + option.points)
+															React.createElement('div', {key: 1, className: 'description'}, [
+																React.createElement('span', {key: 0, className: 'title'}, this.lang(option.title)),
+																React.createElement('span', {key: 1, className: 'points'}, (option.points > 0 ? '+' : '') + option.points)
 															]),
 															React.createElement('div', {
+																key: 2,
 																className: 'numbers-input'
 															}, number_inputs)
 														]);
@@ -227,23 +239,25 @@ var ScoreBoardReact = React.createClass({
 									);
 								}.bind(this)));
 							}.bind(this))),
-							React.createElement('ul', {}, mission.constraints.map(function(constraint) {
-								return React.createElement('li', {}, this.lang(constraint));
+							React.createElement('ul', {key: 3}, mission.constraints.map(function(constraint, constraint_key) {
+								return React.createElement('li', {key: constraint_key}, this.lang(constraint));
 							}.bind(this)))
 						]));
 				}.bind(this))
 			]),
-			React.createElement('div', {className: 'tools'}, [
-				React.createElement('ul', {key: 'locales', className: 'locales'}, Object.keys(ScoreBoardData.locales).map(function(locale) {
+			React.createElement('div', {key: 3, className: 'tools'}, [
+				React.createElement('ul', {key: 0, className: 'locales'}, Object.keys(ScoreBoardData.locales).map(function(locale) {
 					return React.createElement('li', {key: locale, onClick: function() { this.setState({locale: locale}); }.bind(this)}, locale);
 				}.bind(this))),
 				React.createElement('img', {
+					key: 1, 
 					src: 'assets/animal-allies-logo.png',
 					alt: 'Animal Allies Logo'
 				}),
-				React.createElement('p', {}, this.lang(ScoreBoardData.strings.about)),
-				React.createElement('p', {}, [
+				React.createElement('p', {key: 2}, this.lang(ScoreBoardData.strings.about)),
+				React.createElement('p', {key: 3}, [
 					React.createElement('a', {
+						key: 0,
 						className: 'btn twitter big',
 						href: (function() {
 							var text = this.lang(ScoreBoardData.strings.twitter.text).replace('%score%', score);
@@ -254,21 +268,23 @@ var ScoreBoardReact = React.createClass({
 						}.bind(this))(),
 						target: '_blank'
 					}, [
-						React.createElement('i', {className: 'fa fa-twitter'}),
+						React.createElement('i', {key: 0, className: 'fa fa-twitter'}),
 						' ' + this.lang(ScoreBoardData.strings.twitter.button)
 					])
 				]),
-				React.createElement('p', {}, [
+				React.createElement('p', {key: 4}, [
 					React.createElement('a', {
+						key: 1,
 						className: 'btn twitter',
 						href: 'https://twitter.com/RobotsJU',
 						target: '_blank'
 					}, [
-						React.createElement('i', {className: 'fa fa-twitter'}),
+						React.createElement('i', {key: 0, className: 'fa fa-twitter'}),
 						' ' + this.lang(ScoreBoardData.strings.twitter.follow).replace('%user%', '@RobotsJU')
 					])
 				]),
 				React.createElement('button', {
+					key: 5,
 					className: 'btn',
 					onClick: this.resetMissions
 				}, this.lang(ScoreBoardData.strings.reset))
