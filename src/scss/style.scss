@@ -4,6 +4,21 @@
  * @license MIT
  */
 
+$fa-font-path: '.';
+@import "variables";
+@import "mixins";
+@import "path";
+@import "core";
+
+// Only what is needed (copied from _icons.scss)
+.#{$fa-css-prefix}-check:before { content: $fa-var-check; }
+.#{$fa-css-prefix}-chevron-left:before { content: $fa-var-chevron-left; }
+.#{$fa-css-prefix}-chevron-right:before { content: $fa-var-chevron-right; }
+.#{$fa-css-prefix}-close:before { content: $fa-var-times; }
+.#{$fa-css-prefix}-heart-o:before { content: $fa-var-heart-o; }
+.#{$fa-css-prefix}-magic:before { content: $fa-var-magic; }
+.#{$fa-css-prefix}-twitter:before { content: $fa-var-twitter; }
+
 $color-background: white;
 $color-orange: #ff6100;
 $color-shadow: rgba(black, 0.6);

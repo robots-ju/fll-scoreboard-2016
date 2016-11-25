@@ -37,7 +37,10 @@ gulp.task('styles', function() {
 	return gulp.src([
 			src_path + 'scss/*.scss'
 		])
-		.pipe(sass({outputStyle: 'compressed'}))
+		.pipe(sass({
+			outputStyle: 'compressed',
+			includePaths: [bower_path + 'font-awesome/scss']
+		}))
 		.pipe(concat('style.css'))
 		.pipe(gulp.dest(assets_dest_path));
 });
@@ -50,6 +53,13 @@ gulp.task('images', function() {
 		.pipe(gulp.dest(assets_dest_path));
 });
 
+gulp.task('icons', function() {
+	return gulp.src([
+			bower_path + 'font-awesome/fonts/**.*'
+		])
+		.pipe(gulp.dest(assets_dest_path));
+});
+
 gulp.task('html', function() {
 	return gulp.src([
 			src_path + 'html/*.html'
@@ -57,7 +67,7 @@ gulp.task('html', function() {
 		.pipe(gulp.dest(dest_path));
 });
 
-gulp.task('default', ['scripts', 'styles', 'images', 'html']);
+gulp.task('default', ['scripts', 'styles', 'images', 'icons', 'html']);
 
 gulp.task('watch', ['default'], function() {
 	gulp.watch(src_path + '**/*', ['default']);
