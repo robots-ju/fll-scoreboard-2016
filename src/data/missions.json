@@ -560,7 +560,7 @@
 						{
 							"title": {
 								"en": "The bee is on the beehive and the honey is completely in base",
-								"fr": "L’abeille est sur la ruche est le miel est complètement dans la base"
+								"fr": "L’abeille est sur la ruche et le miel est complètement dans la base"
 							},
 							"handle": "m10_bee_on_beehive_and_honey_in_base",
 							"type": "boolean",
