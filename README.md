@@ -1,5 +1,7 @@
 # Robots-JU FLL 2016 Scoreboard
 
+> This project is archived because it was merged into https://github.com/robots-ju/fll-scoreboard
+
 Unofficial web scoreboard for the FLL 2016 (Animal Allies) Robot Game.
 
 This is a private project that is not supported or approved by the FIRST® LEGO® League.
